@@ -21,6 +21,6 @@
 		<property name="clickNum" column="clickNum" type="int" />
 		<property name="university" column="university" type="java.lang.String" />
 		<property name="state" column="state" type="int" />
-		<property name="infoWeigth" column="infoWeight" type="int" />
+		<property name="infoWeight" column="infoWeight" type="int" />
 	</class>
 </hibernate-mapping>
