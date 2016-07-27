@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.crawler.bean.JobMessage" table="jobmessage">
+		<id name="id" column="id" type="int">
+			<generator class="increment" />
+		</id>
+		<property name="fileName" column="fileName" type="java.lang.String" />
+		<property name="companyName" column="companyName" type="java.lang.String" />
+		<property name="postTime" column="postTime" type="java.lang.String" />
+		<property name="indexdate" column="indexdate" type="java.lang.String" />
+		<property name="place" column="place" type="java.lang.String" />
+		<property name="holdTime" column="holdTime" type="java.lang.String" />
+		<property name="info" column="info" type="java.lang.String" />
+		<property name="keyContent" column="keyContent" type="java.lang.String" />
+		<property name="time" column="time" type="java.lang.String" />
+		<property name="url" column="url" type="java.lang.String" />
+		<property name="clickNum" column="clickNum" type="int" />
+		<property name="university" column="university" type="java.lang.String" />
+		<property name="state" column="state" type="int" />
+		<property name="infoWeigth" column="infoWeight" type="int" />
+	</class>
+</hibernate-mapping>
