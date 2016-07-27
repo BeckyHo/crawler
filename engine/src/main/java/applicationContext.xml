@@ -14,54 +14,55 @@
     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	<!-- 指定数据库连接配置文件的位置 -->
-	<bean id="dbConfig"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:db.properties" />
-	</bean>
+	<context:property-placeholder location="classpath:db.properties" />
 
 	<!-- 配置数据库数据源 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
-		<property name="driverClass">
-			<value>${jdbc.driverClass}</value>
-		</property>
-		<property name="jdbcUrl">
-			<value>${jdbc.jdbcUrl}</value>
-		</property>
-		<property name="user">
-			<value>${jdbc.user}</value>
-		</property>
-		<property name="password">
-			<value>${jdbc.password}</value>
-		</property>
-		<property name="minPoolSize">
-			<value>1</value>
-		</property>
-		<property name="maxPoolSize">
-			<value>2</value>
-		</property>
-		<property name="initialPoolSize">
-			<value>1</value>
-		</property>
-		<property name="maxIdleTime">
-			<value>10</value>
-		</property>
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<property name="jdbcUrl" value="${jdbc.jdbcUrl}" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="minPoolSize" value="${jdbc.initPoolSize}" />
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 	</bean>
 
 	<!-- sessionFactory配置 -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 配置数据源属性 -->
 		<property name="dataSource" ref="dataSource" />
-		<!-- 指定hibernate配置文件 -->
-		<property name="mappingLocations" value="classpath:hibernate.cfg.xml" />
-		<!-- 指定hibernate的*.hbm.xml文件 -->
-		<property name="mappingResources">
+		<!-- 配置hibernate配置文件的位置及名称 -->
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+		<!-- 配置hibernate映射文件的位置和名称, 可以使用通配符 -->
+		<property name="mappingLocations">
 			<list>
-				<value>com/crawler/bean/JobMessage.hbm.xml</value>
-				<value>com/crawler/bean/Suggest.hbm.xml</value>
-				<value>com/crawler/bean/User.hbm.xml</value>
+				<value>classpath:com/crawler/bean/JobMessage.hbm.xml</value>
+				<value>classpath:com/crawler/bean/Suggest.hbm.xml</value>
+				<value>classpath:com/crawler/bean/User.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
 
+	<!-- 配置Spring的声明式事务 -->
+	<!-- 1. 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 2. 配置事务属性, 需要事务管理器 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 3. 配置事务切点，并把切点和事务属性关联起来 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.crawler.bean.*.*(..))"
+			id="txPointcut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+	</aop:config>
 </beans>
