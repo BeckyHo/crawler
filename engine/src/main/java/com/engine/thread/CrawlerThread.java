@@ -13,7 +13,7 @@ import com.engine.logger.ExtLogger;
 import com.engine.queue.Todo;
 import com.engine.queue.VisitedMap;
 
-public class CrawlerThread implements Runnable {
+public class CrawlerThread extends Thread {
 
 	private Todo todo = null;
 	private VisitedMap visitedMap = null;
