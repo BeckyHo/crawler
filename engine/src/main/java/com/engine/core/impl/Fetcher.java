@@ -15,7 +15,7 @@ import org.apache.http.client.methods.HttpGet;
 
 import com.engine.bean.CrawlerUrl;
 import com.engine.core.Processor;
-import com.engine.logger.ServerLogger;
+import com.engine.logger.ExtLogger;
 
 public class Fetcher implements Processor {
 
@@ -50,7 +50,7 @@ public class Fetcher implements Processor {
 			StatusLine statusLine = response.getStatusLine();
 			int status = statusLine.getStatusCode();
 			if (status != HttpStatus.SC_OK) {
-				ServerLogger.debug(String.format(
+				ExtLogger.debug(String.format(
 						"<Fetcher>, visit url=% fail, code=%s", url.getUrl(),
 						status));
 				url.setHttpClient(null);
@@ -69,10 +69,10 @@ public class Fetcher implements Processor {
 			}
 
 			url.setContent(buffer.toString());
-			ServerLogger.serverDebug(String.format(
+			ExtLogger.serverDebug(String.format(
 					"<Fetcher>. url=% visit successful", url.getUrl()));
 		} catch (ClientProtocolException e) {
-			ServerLogger.serverDebug(String.format(
+			ExtLogger.serverDebug(String.format(
 					"<Fetcher>. url=%s visit fail", url.getUrl()));
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -3,7 +3,7 @@ package com.engine.logger;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
-public class ServerLogger {
+public class ExtLogger {
 
 	private static final String xmlConfig = "classpath:logConfig.xml";
 	private static Logger stdout;
