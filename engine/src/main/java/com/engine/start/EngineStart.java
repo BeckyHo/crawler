@@ -8,8 +8,8 @@ public class EngineStart {
 	public static void main(String[] args) {
 		ExtLogger.serverDebug("engine start...");
 		CrawlerThreadPool pool = new CrawlerThreadPool();
-
 		pool.start();
+		
 		try {
 			pool.join();
 		} catch (InterruptedException e) {

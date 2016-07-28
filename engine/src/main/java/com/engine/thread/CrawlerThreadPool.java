@@ -22,9 +22,10 @@ public class CrawlerThreadPool extends Thread {
 	@Override
 	public void run() {
 		ExtLogger.serverDebug("server start...");
+		
 		ConfigArgs config = new ConfigArgs();
-
 		config.init();
+		
 		SpringApplicationContext.getApplicationContext();
 		ExtendsConfigration.getInstance();
 

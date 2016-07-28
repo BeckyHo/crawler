@@ -16,10 +16,10 @@ public class ExtLogger {
 	}
 
 	public static void serverDebug(String msg) {
-		stdout.debug(msg);
+		// stdout.debug(msg);
 	}
 
 	public static void debug(String msg) {
-		daily.debug(msg);
+		// daily.debug(msg);
 	}
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE extractor[
+<!ELEMENT extractor-conf (config+)>
+<!ELEMENT config (host,resource+)>
+<!ELEMENT host (#PCDATA)>
+<!ELEMENT resource (name,processor)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT processor (#PCDATA)>] >
+
+<!-- <!DOCTYPE extractor-conf SYSTEM "\extractor.dtd">-->
+<extractor-conf>
+
+	<!-- name 属性是正则表达式 -->
+	<!-- 湖工 -->
+	<config>
+		<host>jy.hbut.edu.cn</host>
+		<resource>
+			<name>/xyzp</name>
+			<processor>com.web.fileprocessor.impl.HBUTxyzpFileProcessor</processor>
+		</resource>
+		<resource>
+			<name>/zpxx</name>
+			<processor>com.web.fileprocessor.impl.HBUTzpxxFileProcessor</processor>
+		</resource>
+	</config>
+	
+	<!-- 华科 -->
+	<config>
+		<host>job.hust.edu.cn</host>
+		<resource>
+			<!-- 优先匹配长限定名 -->
+			<name>/show/recruitcouncil</name>
+			<processor>com.web.fileprocessor.impl.HUSTshowRecruitConucilFileProcesser</processor>
+		</resource>
+		<resource>
+			<name>/show</name>
+			<processor>com.web.fileprocessor.impl.HUSTshowFileProcesser</processor>
+		</resource>
+	</config>
+	
+</extractor-conf>

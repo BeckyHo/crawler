@@ -12,7 +12,7 @@ public class ConfigArgs {
 	public static int THREAD_NUM = 1;
 	public static String CRAWLER_STRATEGY = "BFS";
 	public static String DOWNLOAD_CHARSET = "UTF-8";
-	public static String DOWNLOAD_PATH = "D:/mirror/";
+	public static String DOWNLOAD_PATH = "snapshot/";
 	public static String START_CRAWLER = "YES";
 	public static String LUCENE_PATH = "date";
 	public static String LUCENE_STRATEGY = "late";
@@ -60,8 +60,7 @@ public class ConfigArgs {
 					is.close();
 				}
 			} catch (IOException e) {
-				ExtLogger
-						.serverDebug("<ConfigArgs>. inputStream close error");
+				ExtLogger.serverDebug("<ConfigArgs>. inputStream close error");
 			}
 		}
 	}

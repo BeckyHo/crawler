@@ -8,9 +8,9 @@ import com.engine.queue.VisitedMap;
 public class CrawlerManager {
 
 	private Todo todo = null;
+	private VisitedMap visitedMap = null;
 	private int waitThreadCount = 0;
 	private boolean stop = false;
-	private VisitedMap visitedMap = null;
 
 	private static CrawlerManager instance = new CrawlerManager();
 

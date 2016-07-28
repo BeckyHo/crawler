@@ -43,6 +43,8 @@ public class Fetcher implements Processor {
 		// 设置get方法超时时间, 单位毫秒
 		httpGet.setConfig(RequestConfig.custom().setConnectTimeout(10000)
 				.build());
+		// 设置socket超时时间
+		httpGet.setConfig(RequestConfig.custom().setSocketTimeout(6000).build());
 
 		BufferedReader reader = null;
 		try {
@@ -72,8 +74,8 @@ public class Fetcher implements Processor {
 			ExtLogger.serverDebug(String.format(
 					"<Fetcher>. url=% visit successful", url.getUrl()));
 		} catch (ClientProtocolException e) {
-			ExtLogger.serverDebug(String.format(
-					"<Fetcher>. url=%s visit fail", url.getUrl()));
+			ExtLogger.serverDebug(String.format("<Fetcher>. url=%s visit fail",
+					url.getUrl()));
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
