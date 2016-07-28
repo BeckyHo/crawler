@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<!-- 
+	appender输出方式有5种: 
+		1. org.apache.log4j.RollingFileAppender(滚动文件, 自动记录最新日志)
+		2. org.apache.log4j.ConsoleAppender(控制台) 
+		3. org.apache.log4j.FileAppender(文件)
+		4. org.apache.log4j.DailyRollingFileAppender(每天产生一个日志文件)
+		5. org.apache.log4j.WriterAppender(将日志信息以流格式发送到任意指定的地方)
+	
+	格式说明, <layout>标签都是以%开始, 后面跟的参数代表不同的格式化信息:
+		%c: 输出所属类的全名
+		%d: 输出日志时间, 格式为%d{yyyy-MM-dd HH:mm:ss SSS}
+		%l: 输出日志事件发生位置, 包括类目名, 发生线程, 在代码中的行数
+		%n: 换行符
+		%m: 输出代码指定信息, 如info("message")会输出message
+		%p: 输出优先级, 即FATAL, ERROR等
+		%r: 输出从启动到显示该log信息所耗费的毫秒数
+		%t: 输出产生该日志事件的线程名
+	
+	日志记录的优先级priority, 从高到低:
+		OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL
+		
+	<appender>标签: 	定义一个日志输出目的地
+	<layout>标签:		定义与某一个appender相关联的日志格式化器
+	<logger>标签:		定义一个日志输出器
+	-->
+	
+	<!-- 定义一个输出到控制台的日志 -->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{HH:mm:ss}][%-5p][%t]%C{1}.%M -%m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value=""/>
+		</filter>
+	</appender>
+
+	<!-- 定义每日生成一个日志文件 -->
+	<appender name="DAILY" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="log/"/>
+		<param name="DatePattern" value="'_'yyyy-MM-dd'.log'"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{HH:mm:ss}][%t] %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG"/>
+			<param name="LevelMax" value="ERROR"/>
+		</filter>
+	</appender>
+
+	<category name="stdout" additivity="false">
+		<priority value="all" />
+		<appender-ref ref="STDOUT"/>
+	</category>
+
+	<category name="daily" additivity="false">
+		<appender-ref ref=""/>
+	</category>
+</log4j:configuration>
