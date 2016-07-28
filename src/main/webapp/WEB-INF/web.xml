@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_9" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<welcome-file-list>
+		<welcome-file>/welcomeServlet</welcome-file>
+	</welcome-file-list>
+
+	<!-- 全局参数, 所有的Servlet都可以访问 -->
+	<context-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>welcomeServlet</servlet-name>
+		<servlet-class>com.web01.servlet.WelcomeServlet</servlet-class>
+		<!-- 局部参数, 只有该Servlet才能访问 -->
+		<init-param>
+			<param-name>abc</param-name>
+			<param-value>haha</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>welcomeServlet</servlet-name>
+		<url-pattern>/servlet/WelcomeServlet</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>com.web01.filter.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>com.web01.listener.LoginListener</listener-class>
+	</listener>
+	
+</web-app>
