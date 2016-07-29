@@ -43,26 +43,4 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- 配置Spring的声明式事务 -->
-	<!-- 1. 配置事务管理器 -->
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<!-- 2. 配置事务属性, 需要事务管理器 -->
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" />
-			<tx:method name="*" />
-		</tx:attributes>
-	</tx:advice>
-
-	<!-- 3. 配置事务切点，并把切点和事务属性关联起来 -->
-	<aop:config>
-		<aop:pointcut expression="execution(* com.crawler.bean.*.*(..))"
-			id="txPointcut" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
-	</aop:config>
 </beans>
