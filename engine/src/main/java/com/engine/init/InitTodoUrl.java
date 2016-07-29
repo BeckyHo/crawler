@@ -33,8 +33,6 @@ public class InitTodoUrl {
 			for (Iterator<Object> iter = properties.keySet().iterator(); iter
 					.hasNext();) {
 				String key = (String) iter.next();
-				ExtLogger
-						.info(String.format("<InitTodoUrl>. test url=%s", key));
 				File file = new File(key);
 				if (file.exists()) {
 					File[] files = file.listFiles();
@@ -45,11 +43,13 @@ public class InitTodoUrl {
 					file.delete();
 				}
 
-				file.mkdir();
 				parseLinkFilter.add(key);
 
 				// 初始化爬取队列
-				todo.add(properties.getProperty(key));
+				String initUrl = properties.getProperty(key);
+				ExtLogger.info(String.format("<InitTodoUrl>. init url=%s",
+						initUrl));
+				todo.add(initUrl);
 			}
 		} catch (IOException e) {
 			ExtLogger.info("<InitTodoUrl>. load initUrl.properties fail.");

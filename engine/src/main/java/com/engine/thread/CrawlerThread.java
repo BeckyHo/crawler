@@ -19,19 +19,18 @@ public class CrawlerThread extends Thread {
 	private VisitedMap visitedMap = null;
 	private HttpClient httpClient = null;
 	private CrawlerManager crawlerManager = null;
-	private String name = null;
 	private ProcessorChain processorChain = null;
 
 	public CrawlerThread(CrawlerManager crawlerManager, String name) {
+		super(name);
 		this.crawlerManager = crawlerManager;
-		this.name = name;
 		init();
 	}
 
 	private void init() {
 		this.todo = crawlerManager.getTodo();
 		this.visitedMap = crawlerManager.getVisitedMap();
-		processorChain = new ProcessorChain();
+		processorChain = ProcessorChain.getInstance();
 		httpClient = HttpClients.createDefault();
 		// http的超时时间在HttpUriRequest中设置, 比如:
 		/**
@@ -64,7 +63,6 @@ public class CrawlerThread extends Thread {
 									processor.getClass().getName(),
 									crawlerUrl.getUrl()));
 					e.printStackTrace();
-					break;
 				}
 			}
 
@@ -74,7 +72,7 @@ public class CrawlerThread extends Thread {
 		}
 
 		ExtLogger.info(String.format("%s thread stop, remain %s to crawler",
-				name, todo.getSize()));
+				getName(), todo.getSize()));
 	}
 
 	private void show() {

@@ -10,8 +10,7 @@ import java.io.OutputStreamWriter;
 import com.engine.bean.CrawlerUrl;
 import com.engine.core.Processor;
 import com.engine.init.ConfigArgs;
-import com.engine.writer.ExtendsConfigration;
-import com.engine.writer.WriteChainAnalyzer;
+import com.engine.logger.ExtLogger;
 
 public class Writer implements Processor {
 
@@ -49,7 +48,11 @@ public class Writer implements Processor {
 		strUrl = strUrl.replace("?", "");
 		// 文件保存路径
 		String parent = ConfigArgs.DOWNLOAD_PATH;
-		String fileName = parent + File.separator + strUrl;
+		String filePath = parent + File.separator + strUrl;
+		ExtLogger
+				.info(String.format(
+						"page download path, parent=%s, filePath=%s", parent,
+						filePath));
 
 		try {
 			File parentFile = new File(parent);
@@ -57,12 +60,12 @@ public class Writer implements Processor {
 				parentFile.mkdirs();
 			}
 
-			file = new File(fileName);
+			file = new File(filePath);
 			file.createNewFile();
 			writer = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(fileName), "UTF-8"));
+					new FileOutputStream(filePath), "UTF-8"));
 			writer.write(url.getContent());
-			fileProcessor(file, url.getUrl());
+			// fileProcessor(file, url.getUrl());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -78,19 +81,19 @@ public class Writer implements Processor {
 			}
 		}
 
-		url.setContent(fileName);
+		url.setContent(filePath);
 		return true;
 	}
 
-	private boolean fileProcessor(File file, String strUrl) {
-		if (file != null && file.exists()) {
-			ExtendsConfigration config = ExtendsConfigration.getInstance();
-			WriteChainAnalyzer analyzer = config.getWriteChainAnalyzer();
-			analyzer.analysisFile(file, strUrl);
-		}
-
-		return true;
-	}
+	// private boolean fileProcessor(File file, String strUrl) {
+	// if (file != null && file.exists()) {
+	// ExtendsConfigration config = ExtendsConfigration.getInstance();
+	// WriteChainAnalyzer analyzer = config.getWriteChainAnalyzer();
+	// analyzer.analysisFile(file, strUrl);
+	// }
+	//
+	// return true;
+	// }
 
 	// private String getPathDir(String strUrl) {
 	// int index = strUrl.indexOf("://");

@@ -37,10 +37,12 @@ public class CrawlerManager {
 				boolean flag2 = url == null;
 				if (flag1 && flag2) {
 					stop = true;
+					notifyManager();
 					break;
 				}
 
 				wait();
+				--waitThreadCount;
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -55,7 +57,6 @@ public class CrawlerManager {
 
 		CrawlerUrl crawlerUrl = null;
 		if (url != null) {
-			--waitThreadCount;
 			crawlerUrl = new CrawlerUrl(url);
 			visitedMap.add(crawlerUrl);
 		}

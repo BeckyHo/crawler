@@ -20,12 +20,13 @@ public class ProcessorChain {
 	public static final String writerClassName = "com.engine.core.impl.Writer";
 
 	private List<Processor> processorChain;
+	private static ProcessorChain instance = new ProcessorChain();
 
-	public ProcessorChain() {
+	private ProcessorChain() {
 		init();
 	}
 
-	private synchronized void init() {
+	private void init() {
 		processorChain = new ArrayList<Processor>();
 
 		try {
@@ -50,7 +51,7 @@ public class ProcessorChain {
 		return processorChain;
 	}
 
-	public void setProcessorChain(List<Processor> processorChain) {
-		this.processorChain = processorChain;
+	public static ProcessorChain getInstance() {
+		return instance;
 	}
 }
