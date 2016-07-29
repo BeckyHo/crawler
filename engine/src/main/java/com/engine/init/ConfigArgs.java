@@ -14,8 +14,8 @@ public class ConfigArgs {
 	public static String DOWNLOAD_CHARSET = "UTF-8";
 	public static String DOWNLOAD_PATH = "snapshot/";
 	public static String START_CRAWLER = "YES";
-	public static String LUCENE_PATH = "date";
-	public static String LUCENE_STRATEGY = "late";
+	public static String LUCENE_PATH = "date/";
+	public static String LUCENE_STRATEGY = "NO";
 
 	public void init() {
 		InputStream is = null;
@@ -51,6 +51,9 @@ public class ConfigArgs {
 					}
 				}
 			}
+
+			// show log
+			info();
 		} catch (IOException e) {
 			ExtLogger.info("<ConfigArgs>. init parameter error");
 			e.printStackTrace();
@@ -63,5 +66,20 @@ public class ConfigArgs {
 				ExtLogger.info("<ConfigArgs>. inputStream close error");
 			}
 		}
+	}
+
+	public void info() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("THREAD_NUM = ").append(THREAD_NUM).append("\t")
+				.append("CRAWLER_STRATEGY = ").append(CRAWLER_STRATEGY)
+				.append("\t").append("DOWNLOAD_CHARSET = ")
+				.append(DOWNLOAD_CHARSET).append("\t")
+				.append("DOWNLOAD_PATH = ").append(DOWNLOAD_PATH).append("\t")
+				.append("START_CRAWLER = ").append(START_CRAWLER).append("\t")
+				.append("LUCENE_PATH = ").append(LUCENE_PATH).append("\t")
+				.append("LUCENE_STRATEGY = ").append(LUCENE_STRATEGY)
+				.append("\t");
+
+		ExtLogger.info(sb.toString());
 	}
 }

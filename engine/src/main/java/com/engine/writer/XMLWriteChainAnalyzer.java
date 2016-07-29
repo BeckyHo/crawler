@@ -15,5 +15,4 @@ public class XMLWriteChainAnalyzer implements WriteChainAnalyzer {
 		// TODO Auto-generated method stub
 
 	}
-
 }

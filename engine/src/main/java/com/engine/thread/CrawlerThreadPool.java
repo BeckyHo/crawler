@@ -11,23 +11,32 @@ import com.engine.init.InitTodoUrl;
 import com.engine.logger.ExtLogger;
 import com.engine.queue.Todo;
 import com.engine.queue.VisitedMap;
-import com.engine.writer.ExtendsConfigration;
 
 public class CrawlerThreadPool extends Thread {
 
-	private VisitedMap visitedMap = new VisitedMap();
+	private static final String VERSION = "2016-07-29. v1";
 
+	private VisitedMap visitedMap = new VisitedMap();
 	public static int THREAD_NUM;
 
 	@Override
 	public void run() {
-		ExtLogger.info("server start...");
+		ExtLogger.info(VERSION);
+		ExtLogger.line();
 
+		ExtLogger.info("<ConfigArgs> start parse initConfiguration parameters");
 		ConfigArgs config = new ConfigArgs();
 		config.init();
+		ExtLogger.info("<ConfigArgs> end parse initConfiguration parameters");
+		ExtLogger.line();
 
+		ExtLogger
+				.info("<SpringApplicationContext> start init applicationContext");
 		SpringApplicationContext.getApplicationContext();
-		ExtendsConfigration.getInstance();
+		ExtLogger
+				.info("<SpringApplicationContext> end init applicationContext");
+
+		// ExtendsConfigration.getInstance();
 
 		if (!ConfigArgs.START_CRAWLER.equals("yes")
 				&& !ConfigArgs.START_CRAWLER.equals("YES")) {
@@ -35,7 +44,8 @@ public class CrawlerThreadPool extends Thread {
 		}
 
 		THREAD_NUM = ConfigArgs.THREAD_NUM;
-		ExtLogger.info("init todo and crawler manager");
+		ExtLogger.info(String.format(
+				"init threadNum=%s, start create crawler threads", THREAD_NUM));
 
 		InitTodoUrl initUrl = InitTodoUrl.getInstance();
 		Todo todo = initUrl.getTodo();

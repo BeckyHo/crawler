@@ -6,6 +6,7 @@ import com.engine.thread.CrawlerThreadPool;
 public class EngineStart {
 
 	public static void main(String[] args) {
+
 		ExtLogger.info("engine start...");
 		CrawlerThreadPool pool = new CrawlerThreadPool();
 		pool.start();
