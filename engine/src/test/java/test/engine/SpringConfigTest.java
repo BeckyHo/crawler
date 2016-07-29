@@ -12,6 +12,7 @@ public class SpringConfigTest {
 
 	@Test
 	public void testSpringConfig() {
+		@SuppressWarnings("resource")
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
 

@@ -40,7 +40,7 @@ public class Extractor implements Processor {
 		String content = url.getContent();
 		if (content == null || "".equals(content)) {
 			ExtLogger.info(String.format(
-					"<Extractor>. parse null content, parse=%s", url.getUrl()));
+					"<Extractor>. parse null content, url=%s", url.getUrl()));
 			return false;
 		}
 
@@ -69,20 +69,12 @@ public class Extractor implements Processor {
 					String strUrl = link.getLink();
 					if (strUrl == null || strUrl.length() <= 4) {
 						continue;
-					} else if (strUrl.contains("article.htm")) {
-						int index = strUrl.indexOf("article.htm");
-						strUrl = "http://www.job.hust.edu.cn/show/"
-								+ strUrl.substring(index);
-					} else if (strUrl.startsWith("/show/")) {
-						strUrl = "http://job.hust.edu.cn/" + strUrl;
-					} else if (strUrl.contains("recruitfair")) {
-						int index = strUrl.indexOf("recruitfail");
-						strUrl = "http://job.hust.edu.cn/show/recruitcouncil"
-								+ strUrl.substring(index);
-					} else if (strUrl.contains("recruitcouncil/")) {
-						int index = strUrl.indexOf("recruitcouncil/");
-						strUrl = "http://job.hust.edu.cn/show/"
-								+ strUrl.substring(index);
+					}
+
+					boolean ok = strUrl
+							.startsWith("http://jy.hbut.edu.cn/xyzp/");
+					if (!ok) {
+						continue;
 					}
 
 					ExtLogger.info(String.format("<Extractor>. parse url=%s",

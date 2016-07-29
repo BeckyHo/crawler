@@ -3,13 +3,13 @@ package com.engine.core.impl;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import com.engine.bean.CrawlerUrl;
 import com.engine.core.Processor;
 import com.engine.init.ConfigArgs;
-import com.engine.logger.ExtLogger;
 import com.engine.writer.ExtendsConfigration;
 import com.engine.writer.WriteChainAnalyzer;
 
@@ -27,30 +27,29 @@ public class Writer implements Processor {
 		}
 
 		BufferedWriter writer = null;
-		String name = url.getUrl();
-		name = name.substring(name.lastIndexOf("/") + 1);
+		String strUrl = url.getUrl();
+		strUrl = strUrl.substring(strUrl.lastIndexOf("/") + 1);
 
 		// 用于鉴定网站主页, 如http://google.com/; 此时name = ""
-		if (name == null || name.length() == 0) {
+		if (strUrl == null || strUrl.length() == 0) {
 			return false;
-		} else if (!name.contains("html") && !name.contains("htm")) {
+		} else if (!strUrl.contains("html") && !strUrl.contains("htm")) {
 			return false;
-		} else if (!name.endsWith("html") && !name.endsWith("htm")) {
-			name = name.replace("id=", "");
-			if (name.contains(".html")) {
-				name = name.replace(".html", "");
-				name = name + ".html";
-			} else if (name.contains(".html")) {
-				name = name.replace(".htm", "");
-				name = name + ".htm";
+		} else if (!strUrl.endsWith("html") && !strUrl.endsWith("htm")) {
+			strUrl = strUrl.replace("id=", "");
+			if (strUrl.contains(".html")) {
+				strUrl = strUrl.replace(".html", "");
+				strUrl = strUrl + ".html";
+			} else if (strUrl.contains(".html")) {
+				strUrl = strUrl.replace(".htm", "");
+				strUrl = strUrl + ".htm";
 			}
 		}
 
-		name = name.replace("?", "");
+		strUrl = strUrl.replace("?", "");
 		// 文件保存路径
-		String parent = ConfigArgs.DOWNLOAD_PATH
-				+ this.getPathDir(url.getUrl());
-		String fileName = parent + File.separator + name;
+		String parent = ConfigArgs.DOWNLOAD_PATH;
+		String fileName = parent + File.separator + strUrl;
 
 		try {
 			File parentFile = new File(parent);
@@ -60,7 +59,8 @@ public class Writer implements Processor {
 
 			file = new File(fileName);
 			file.createNewFile();
-			writer = new BufferedWriter(new FileWriter(fileName));
+			writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(fileName), "UTF-8"));
 			writer.write(url.getContent());
 			fileProcessor(file, url.getUrl());
 		} catch (FileNotFoundException e) {
@@ -70,6 +70,7 @@ public class Writer implements Processor {
 		} finally {
 			try {
 				if (writer != null) {
+					writer.flush();
 					writer.close();
 				}
 			} catch (IOException e) {
@@ -91,18 +92,18 @@ public class Writer implements Processor {
 		return true;
 	}
 
-	private String getPathDir(String strUrl) {
-		int index = strUrl.indexOf("://");
-		if (index != -1) {
-			strUrl = strUrl.substring(index + 3);
-		}
-
-		index = strUrl.lastIndexOf("/");
-		if (index != -1) {
-			strUrl = strUrl.substring(0, index);
-		}
-
-		ExtLogger.info(String.format("<Writer>. save url=%s", strUrl));
-		return strUrl;
-	}
+	// private String getPathDir(String strUrl) {
+	// int index = strUrl.indexOf("://");
+	// if (index != -1) {
+	// strUrl = strUrl.substring(index + 3);
+	// }
+	//
+	// index = strUrl.lastIndexOf("/");
+	// if (index != -1) {
+	// strUrl = strUrl.substring(0, index);
+	// }
+	//
+	// ExtLogger.info(String.format("<Writer>. save url=%s", strUrl));
+	// return strUrl;
+	// }
 }

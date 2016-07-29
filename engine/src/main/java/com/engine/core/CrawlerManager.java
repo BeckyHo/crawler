@@ -1,6 +1,7 @@
 package com.engine.core;
 
 import com.engine.bean.CrawlerUrl;
+import com.engine.init.ConfigArgs;
 import com.engine.logger.ExtLogger;
 import com.engine.queue.Todo;
 import com.engine.queue.VisitedMap;
@@ -32,7 +33,7 @@ public class CrawlerManager {
 		while (url == null) {
 			try {
 				++waitThreadCount;
-				boolean flag1 = waitThreadCount == 23;
+				boolean flag1 = waitThreadCount == ConfigArgs.THREAD_NUM;
 				boolean flag2 = url == null;
 				if (flag1 && flag2) {
 					stop = true;
@@ -40,7 +41,7 @@ public class CrawlerManager {
 				}
 
 				wait();
-				--waitThreadCount;
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				break;
@@ -54,6 +55,7 @@ public class CrawlerManager {
 
 		CrawlerUrl crawlerUrl = null;
 		if (url != null) {
+			--waitThreadCount;
 			crawlerUrl = new CrawlerUrl(url);
 			visitedMap.add(crawlerUrl);
 		}

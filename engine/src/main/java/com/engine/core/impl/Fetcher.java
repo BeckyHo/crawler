@@ -53,7 +53,7 @@ public class Fetcher implements Processor {
 			int status = statusLine.getStatusCode();
 			if (status != HttpStatus.SC_OK) {
 				ExtLogger.debug(String.format(
-						"<Fetcher>, visit url=% fail, code=%s", url.getUrl(),
+						"<Fetcher>, visit url=%s fail, code=%s", url.getUrl(),
 						status));
 				url.setHttpClient(null);
 				return false;

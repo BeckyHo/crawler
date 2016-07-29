@@ -8,6 +8,6 @@ public class PostProcessor implements Processor {
 	@Override
 	public boolean innerProcessor(CrawlerUrl url) {
 
-		return false;
+		return true;
 	}
 }

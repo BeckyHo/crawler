@@ -71,9 +71,10 @@ public class CrawlerThread extends Thread {
 			crawlerUrl.setContent(null);
 			crawlerManager.notifyManager();
 			show();
-
-			ExtLogger.info(String.format("%s thread end", name));
 		}
+
+		ExtLogger.info(String.format("%s thread stop, remain %s to crawler",
+				name, todo.getSize()));
 	}
 
 	private void show() {
