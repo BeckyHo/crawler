@@ -71,7 +71,7 @@ public class Fetcher implements Processor {
 			}
 
 			url.setContent(buffer.toString());
-			ExtLogger.info(String.format("<Fetcher>. url=% visit successful",
+			ExtLogger.info(String.format("<Fetcher>. url=%s visit successful",
 					url.getUrl()));
 		} catch (ClientProtocolException e) {
 			ExtLogger.info(String.format("<Fetcher>. url=%s visit fail",

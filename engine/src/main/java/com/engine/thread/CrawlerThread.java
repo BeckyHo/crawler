@@ -63,6 +63,7 @@ public class CrawlerThread extends Thread {
 									"procesorChain %s process %s error",
 									processor.getClass().getName(),
 									crawlerUrl.getUrl()));
+					e.printStackTrace();
 					break;
 				}
 			}
