@@ -38,9 +38,7 @@ public class ClockThread implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		ExtLogger.serverDebug("multi-thread start");
-		
-	}
 
+		ExtLogger.info("multi-thread start");
+	}
 }

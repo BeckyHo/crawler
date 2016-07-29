@@ -33,8 +33,8 @@ public class InitTodoUrl {
 			for (Iterator<Object> iter = properties.keySet().iterator(); iter
 					.hasNext();) {
 				String key = (String) iter.next();
-				ExtLogger.serverDebug(String.format(
-						"<InitTodoUrl>. test url=%s", key));
+				ExtLogger
+						.info(String.format("<InitTodoUrl>. test url=%s", key));
 				File file = new File(key);
 				if (file.exists()) {
 					File[] files = file.listFiles();
@@ -52,8 +52,7 @@ public class InitTodoUrl {
 				todo.add(properties.getProperty(key));
 			}
 		} catch (IOException e) {
-			ExtLogger
-					.serverDebug("<InitTodoUrl>. load initUrl.properties fail.");
+			ExtLogger.info("<InitTodoUrl>. load initUrl.properties fail.");
 			e.printStackTrace();
 		} finally {
 			try {

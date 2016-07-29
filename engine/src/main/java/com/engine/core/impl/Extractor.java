@@ -39,7 +39,7 @@ public class Extractor implements Processor {
 
 		String content = url.getContent();
 		if (content == null || "".equals(content)) {
-			ExtLogger.serverDebug(String.format(
+			ExtLogger.info(String.format(
 					"<Extractor>. parse null content, parse=%s", url.getUrl()));
 			return false;
 		}
@@ -48,13 +48,13 @@ public class Extractor implements Processor {
 		Parser parser = Parser.createParser(content, ENCODE);
 		NodeFilter filter = new NodeClassFilter(LinkTag.class);
 
-		ExtLogger.serverDebug(String.format("<Extractor>. parser url=%s",
-				url.getUrl()));
+		ExtLogger
+				.info(String.format("<Extractor>. parser url=%s", url.getUrl()));
 
 		LinkStringFilter linkFilter = ParseLinkFilter.getLinkFilter(url
 				.getStandardUrl());
 		if (linkFilter == null) {
-			ExtLogger.serverDebug(String.format("<Extractor>. outside url=%s",
+			ExtLogger.info(String.format("<Extractor>. outside url=%s",
 					url.getUrl()));
 			return false;
 		}
@@ -85,8 +85,8 @@ public class Extractor implements Processor {
 								+ strUrl.substring(index);
 					}
 
-					ExtLogger.serverDebug(String.format(
-							"<Extractor>. parse url=%s", strUrl));
+					ExtLogger.info(String.format("<Extractor>. parse url=%s",
+							strUrl));
 					crawlerManager.addUrl(strUrl);
 				}
 			}

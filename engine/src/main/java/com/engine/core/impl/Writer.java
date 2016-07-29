@@ -102,7 +102,7 @@ public class Writer implements Processor {
 			strUrl = strUrl.substring(0, index);
 		}
 
-		ExtLogger.serverDebug(String.format("<Writer>. save url=%s", strUrl));
+		ExtLogger.info(String.format("<Writer>. save url=%s", strUrl));
 		return strUrl;
 	}
 }

@@ -59,7 +59,7 @@ public class CrawlerThread extends Thread {
 					}
 				} catch (Exception e) {
 					ExtLogger
-							.serverDebug(String.format(
+							.info(String.format(
 									"procesorChain %s process %s error",
 									processor.getClass().getName(),
 									crawlerUrl.getUrl()));
@@ -71,7 +71,7 @@ public class CrawlerThread extends Thread {
 			crawlerManager.notifyManager();
 			show();
 
-			ExtLogger.serverDebug(String.format("%s thread end", name));
+			ExtLogger.info(String.format("%s thread end", name));
 		}
 	}
 

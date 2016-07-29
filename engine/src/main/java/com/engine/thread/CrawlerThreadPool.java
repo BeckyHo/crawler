@@ -21,11 +21,11 @@ public class CrawlerThreadPool extends Thread {
 
 	@Override
 	public void run() {
-		ExtLogger.serverDebug("server start...");
-		
+		ExtLogger.info("server start...");
+
 		ConfigArgs config = new ConfigArgs();
 		config.init();
-		
+
 		SpringApplicationContext.getApplicationContext();
 		ExtendsConfigration.getInstance();
 
@@ -35,7 +35,7 @@ public class CrawlerThreadPool extends Thread {
 		}
 
 		THREAD_NUM = ConfigArgs.THREAD_NUM;
-		ExtLogger.serverDebug("init todo and crawler manager");
+		ExtLogger.info("init todo and crawler manager");
 
 		InitTodoUrl initUrl = InitTodoUrl.getInstance();
 		Todo todo = initUrl.getTodo();
@@ -47,7 +47,7 @@ public class CrawlerThreadPool extends Thread {
 		CrawlerManager crawlerManager = CrawlerManager.getInstance();
 		crawlerManager.initCrawlerManager(todo, visitedMap);
 
-		ExtLogger.serverDebug("init crawler threads");
+		ExtLogger.info("init crawler threads");
 
 		for (int i = 0; i < THREAD_NUM; i++) {
 			CrawlerThread thread = new CrawlerThread(crawlerManager, "thread-"
@@ -66,8 +66,7 @@ public class CrawlerThreadPool extends Thread {
 		}
 
 		long spendTime = clock.millis() - startTime;
-		ExtLogger.serverDebug(String.format(
-				"%s way, spend time: %s minute %s second",
+		ExtLogger.info(String.format("%s way, spend time: %s minute %s second",
 				ConfigArgs.CRAWLER_STRATEGY, spendTime / 60000,
 				(spendTime % 60000) / 1000));
 	}

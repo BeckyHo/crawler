@@ -11,15 +11,15 @@ public class ExtLogger {
 
 	public static void initLogger() {
 		DOMConfigurator.configure(xmlConfig);
-		stdout = Logger.getLogger("STDOUT");
+		stdout = Logger.getLogger("stdout");
 		daily = Logger.getLogger("daily");
 	}
 
-	public static void serverDebug(String msg) {
-		// stdout.debug(msg);
+	public static void info(String msg) {
+		stdout.debug(msg);
 	}
 
 	public static void debug(String msg) {
-		// daily.debug(msg);
+		daily.debug(msg);
 	}
 }

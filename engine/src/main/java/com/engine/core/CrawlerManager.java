@@ -69,8 +69,8 @@ public class CrawlerManager {
 	}
 
 	public synchronized void notifyManager() {
-		ExtLogger.serverDebug(String.format(
-				"<CrawlerManager>. waitThreadCount=%s", waitThreadCount));
+		ExtLogger.info(String.format("<CrawlerManager>. waitThreadCount=%s",
+				waitThreadCount));
 		notifyAll();
 	}
 

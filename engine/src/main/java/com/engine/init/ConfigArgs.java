@@ -32,7 +32,7 @@ public class ConfigArgs {
 				if (key.equals("THREAD_NUM")) {
 					THREAD_NUM = Integer.parseInt(properties.getProperty(key));
 					if (THREAD_NUM <= 0) {
-						ExtLogger.serverDebug(String.format(
+						ExtLogger.info(String.format(
 								"<ConfigArgs>. init error, threadNum=%s",
 								THREAD_NUM));
 						THREAD_NUM = 1;
@@ -52,7 +52,7 @@ public class ConfigArgs {
 				}
 			}
 		} catch (IOException e) {
-			ExtLogger.serverDebug("<ConfigArgs>. init parameter error");
+			ExtLogger.info("<ConfigArgs>. init parameter error");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -60,7 +60,7 @@ public class ConfigArgs {
 					is.close();
 				}
 			} catch (IOException e) {
-				ExtLogger.serverDebug("<ConfigArgs>. inputStream close error");
+				ExtLogger.info("<ConfigArgs>. inputStream close error");
 			}
 		}
 	}
