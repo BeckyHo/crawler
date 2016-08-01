@@ -75,7 +75,7 @@ public class Fetcher implements Processor {
 			StringBuffer buffer = new StringBuffer();
 			String content = null;
 			while ((content = reader.readLine()) != null) {
-				buffer.append(content);
+				buffer.append(content).append("\n");
 				if (buffer.length() > MAX_CONTENT_LENGTH) {
 					ExtLogger.info(String.format(
 							"<Fetcher>.visite() content exceed %s, url=%s",
