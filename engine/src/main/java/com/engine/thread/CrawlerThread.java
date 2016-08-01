@@ -50,6 +50,9 @@ public class CrawlerThread extends Thread {
 				break;
 			}
 
+			ExtLogger.info(String.format(
+					"<CrawlerThread> threadName=%s get url=%s", getName(),
+					crawlerUrl.getUrl()));
 			crawlerUrl.setHttpClient(httpClient);
 			for (Processor processor : processorChain.getProcessorChain()) {
 				try {
@@ -67,7 +70,6 @@ public class CrawlerThread extends Thread {
 			}
 
 			crawlerUrl.setContent(null);
-			crawlerManager.notifyManager();
 			show();
 		}
 
@@ -80,7 +82,7 @@ public class CrawlerThread extends Thread {
 		String value = df.format(((double) visitedMap.getSize() / (todo
 				.getSize() + visitedMap.getSize())) * 100);
 
-		System.out
-				.println("已爬取：" + value + "%    还差" + todo.getSize() + "条url");
+		ExtLogger.info(String.format("threadName=%s 以爬取: %s \t 还差%s条url",
+				getName(), value, todo.getSize()));
 	}
 }

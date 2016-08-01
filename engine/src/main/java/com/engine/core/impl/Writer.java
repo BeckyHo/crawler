@@ -22,6 +22,8 @@ public class Writer implements Processor {
 
 	private boolean save(CrawlerUrl url, File file) {
 		if (url.getContent() == null) {
+			ExtLogger.info(String.format(
+					"<Writer>.save() with null content, url=%s", url.getUrl()));
 			return false;
 		}
 
@@ -49,10 +51,9 @@ public class Writer implements Processor {
 		// 文件保存路径
 		String parent = ConfigArgs.DOWNLOAD_PATH;
 		String filePath = parent + File.separator + strUrl;
-		ExtLogger
-				.info(String.format(
-						"page download path, parent=%s, filePath=%s", parent,
-						filePath));
+		ExtLogger.info(String.format(
+				"<Writer>.save() page persistence, parent=%s, filePath=%s",
+				parent, filePath));
 
 		try {
 			File parentFile = new File(parent);

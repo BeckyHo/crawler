@@ -10,8 +10,8 @@ public class CrawlerManager {
 
 	private Todo todo = null;
 	private VisitedMap visitedMap = null;
-	private int waitThreadCount = 0;
-	private boolean stop = false;
+	private volatile int waitThreadCount = 0;
+	private volatile boolean stop = false;
 
 	private static CrawlerManager instance = new CrawlerManager();
 
@@ -37,7 +37,6 @@ public class CrawlerManager {
 				boolean flag2 = url == null;
 				if (flag1 && flag2) {
 					stop = true;
-					notifyManager();
 					break;
 				}
 
@@ -66,13 +65,17 @@ public class CrawlerManager {
 
 	public synchronized void addUrl(String url) {
 		if (!visitedMap.isExist(url) && !todo.contains(url)) {
+			ExtLogger.info(String.format(
+					"<CrawlerManager>.addUrl() waitThreadCount=%s",
+					waitThreadCount));
 			todo.add(url);
 			notifyAll();
 		}
 	}
 
 	public synchronized void notifyManager() {
-		ExtLogger.info(String.format("<CrawlerManager>. waitThreadCount=%s",
+		ExtLogger.info(String.format(
+				"<CrawlerManager>.notifyManager() waitThreadCount=%s",
 				waitThreadCount));
 		notifyAll();
 	}

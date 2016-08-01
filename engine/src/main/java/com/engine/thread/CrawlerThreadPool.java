@@ -44,8 +44,6 @@ public class CrawlerThreadPool extends Thread {
 		}
 
 		THREAD_NUM = ConfigArgs.THREAD_NUM;
-		ExtLogger.info(String.format(
-				"init threadNum=%s, start create crawler threads", THREAD_NUM));
 
 		InitTodoUrl initUrl = InitTodoUrl.getInstance();
 		Todo todo = initUrl.getTodo();
@@ -57,7 +55,8 @@ public class CrawlerThreadPool extends Thread {
 		CrawlerManager crawlerManager = CrawlerManager.getInstance();
 		crawlerManager.initCrawlerManager(todo, visitedMap);
 
-		ExtLogger.info("init crawler threads");
+		ExtLogger.info(String.format(
+				"init threadNum=%s, start create crawler threads", THREAD_NUM));
 
 		for (int i = 0; i < THREAD_NUM; i++) {
 			CrawlerThread thread = new CrawlerThread(crawlerManager, "thread-"
