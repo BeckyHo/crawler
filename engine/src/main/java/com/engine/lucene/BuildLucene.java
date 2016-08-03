@@ -24,7 +24,7 @@ import com.engine.utils.LuceneUtils;
 
 public class BuildLucene {
 
-	public static BuildLucene instance = null;
+	private static BuildLucene instance = null;
 
 	private StandardAnalyzer analyzer = null;
 	private Directory directory = null;
@@ -57,6 +57,8 @@ public class BuildLucene {
 
 		File[] files = rootFile.listFiles();
 		for (File file : files) {
+			ExtLogger
+					.info(String.format("%s will build index", file.getName()));
 			String content = LuceneUtils.readFileContent(file);
 			checkNotNull(content);
 
