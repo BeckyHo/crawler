@@ -22,7 +22,6 @@ public class LuceneTest {
 		// store the index in memory,
 		// to store on disk, use FSDirectory instead
 		Directory directory = new RAMDirectory();
-
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 		IndexWriter writer = new IndexWriter(directory, config);
 
@@ -41,12 +40,13 @@ public class LuceneTest {
 		IndexSearcher searcher = new IndexSearcher(reader);
 
 		QueryParser parser = new QueryParser("fieldName", analyzer);
-		Query query = parser.parse("stupid");
+		Query query = parser.parse("shit");
 
 		ScoreDoc[] hits = searcher.search(query, 5).scoreDocs;
 		System.out.println(hits.length);
 
 		for (int i = 0; i < hits.length; i++) {
+
 			Document hitDoc = searcher.doc(hits[i].doc);
 			System.out.println(hitDoc.get("fieldName"));
 		}
