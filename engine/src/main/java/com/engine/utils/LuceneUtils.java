@@ -14,7 +14,7 @@ public class LuceneUtils {
 
 		try {
 			reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file)));
+					new FileInputStream(file), "UTF-8"));
 			StringBuffer buffer = new StringBuffer();
 			String value = null;
 			while ((value = reader.readLine()) != null) {
@@ -35,7 +35,7 @@ public class LuceneUtils {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return null;
 	}
 }

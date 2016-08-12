@@ -2,6 +2,10 @@ package com.engine.lucene;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -16,7 +20,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.store.MMapDirectory;
 
 import com.engine.init.ConfigArgs;
 import com.engine.logger.ExtLogger;
@@ -29,22 +33,35 @@ public class BuildLucene {
 	private StandardAnalyzer analyzer = null;
 	private Directory directory = null;
 	private IndexWriterConfig config = null;
-	private IndexWriter writer = null;
+
+	private static final String FIELD_URL = "url";
+	private static final String FIELD_CONTENT = "jobMessage";
+	private static final String FIELD_POST_TIME = "postTime";
+	private static final int TOP_RANK = 10;
 
 	private BuildLucene() {
-
-	}
-
-	private void init() throws IOException {
-		analyzer = new StandardAnalyzer();
-		directory = new RAMDirectory();
-		config = new IndexWriterConfig(analyzer);
-		writer = new IndexWriter(directory, config);
-	}
-
-	public void buildIndex() throws IOException {
-		// 为该路劲下的所有文件内容建立索引
 		init();
+	}
+
+	private void init() {
+		try {
+			analyzer = new StandardAnalyzer();
+
+			// store in memory, use RAMDirectory. or
+			// directory = new RAMDirectory();
+			// store in disk, you can use MMapDirectory
+			Path path = FileSystems.getDefault()
+					.getPath(ConfigArgs.LUCENE_PATH);
+			directory = new MMapDirectory(path);
+			config = new IndexWriterConfig(analyzer);
+		} catch (IOException e) {
+			ExtLogger
+					.info("<BuildLucene>.init() init lucene attribute throws IOException");
+		}
+	}
+
+	public void buildIndex() {
+		// 为该路径下的所有文件内容创建索引
 		String filePath = ConfigArgs.DOWNLOAD_PATH;
 		File rootFile = new File(filePath);
 
@@ -55,19 +72,44 @@ public class BuildLucene {
 			return;
 		}
 
+		IndexWriter writer = null;
 		File[] files = rootFile.listFiles();
-		for (File file : files) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String postTime = sdf.format(new Date());
+
+		try {
+			writer = new IndexWriter(directory, config);
+			for (File file : files) {
+				ExtLogger.info(String.format("%s will build index",
+						file.getName()));
+
+				String fileName = file.getName();
+				String fileUrl = filePath + File.separator + fileName;
+				String content = LuceneUtils.readFileContent(file);
+
+				// 设置不同域内容
+				Document doc = new Document();
+				doc.add(new Field(FIELD_URL, fileUrl, TextField.TYPE_STORED));
+				doc.add(new Field(FIELD_CONTENT, content, TextField.TYPE_STORED));
+				doc.add(new Field(FIELD_POST_TIME, postTime,
+						TextField.TYPE_STORED));
+
+				writer.addDocument(doc);
+			}
+		} catch (IOException e) {
 			ExtLogger
-					.info(String.format("%s will build index", file.getName()));
-			String content = LuceneUtils.readFileContent(file);
-			checkNotNull(content);
-
-			Document doc = new Document();
-			doc.add(new Field("fieldName", content, TextField.TYPE_STORED));
-			writer.addDocument(doc);
+					.info("<BuildLucene> buildIndex(). writer add doc failed , throws IOException");
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
+				ExtLogger
+						.info("<BuildLucene> buildIndex(). close writer throws IOException");
+			}
 		}
-
-		writer.close();
 	}
 
 	// 根据关键字检索
@@ -76,28 +118,25 @@ public class BuildLucene {
 			DirectoryReader reader = DirectoryReader.open(directory);
 			IndexSearcher searcher = new IndexSearcher(reader);
 
-			QueryParser parser = new QueryParser("fieldName", analyzer);
+			QueryParser parser = new QueryParser(FIELD_CONTENT, analyzer);
 			Query query = parser.parse(keyword);
 
-			ScoreDoc[] hits = searcher.search(query, 10).scoreDocs;
+			ScoreDoc[] hits = searcher.search(query, TOP_RANK).scoreDocs;
 			ExtLogger.info(String.format("%s search %s results, they are: ",
 					keyword, hits.length));
-			StringBuffer buffer = new StringBuffer();
+			ExtLogger.info(String.format("%s search result: ", keyword));
 			for (int i = 0; i < hits.length; i++) {
-				buffer.append(hits[i].doc).append(", ");
+				int docId = hits[i].doc;
+				// 根据文档ID得到对应的Document对象
+				Document doc = searcher.doc(docId);
+				String content = doc.get(FIELD_CONTENT);
+				ExtLogger.info(String.format("docId=%s, content=%s", docId,
+						content));
 			}
-
-			ExtLogger.info(String.format("%s", buffer.toString()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}
-	}
-
-	private void checkNotNull(String str) {
-		if (str == null || str.equals("")) {
-			throw new NullPointerException();
 		}
 	}
 
