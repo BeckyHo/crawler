@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="crawler">
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/web/src/main/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/engine/src/main/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/web/src/test/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/engine/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/engine/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/engine/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <property name="context-root" value="crawler"/>
         <property name="java-output-path" value="/crawler/target/classes"/>
     </wb-module>
