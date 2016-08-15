@@ -12,9 +12,9 @@ public class ConfigArgs {
 	public static int THREAD_NUM = 1;
 	public static String CRAWLER_STRATEGY = "BFS";
 	public static String DOWNLOAD_CHARSET = "UTF-8";
-	public static String DOWNLOAD_PATH = "snapshot";
+	public static String DOWNLOAD_PATH = "src/engine/resources/snapshot/";
 	public static String START_CRAWLER = "YES";
-	public static String LUCENE_PATH = "date/";
+	public static String LUCENE_PATH = "src/engine/resources/lucene";
 	public static String LUCENE_STRATEGY = "NO";
 
 	public void init() {

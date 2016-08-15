@@ -6,7 +6,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/engine/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <property name="context-root" value="crawler"/>
         <property name="java-output-path" value="/crawler/target/classes"/>
     </wb-module>

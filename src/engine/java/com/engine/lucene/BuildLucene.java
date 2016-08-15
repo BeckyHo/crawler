@@ -88,7 +88,7 @@ public class BuildLucene {
 				String fileUrl = filePath + File.separator + fileName;
 				String content = LuceneUtils.readFileContent(file);
 
-				// 设置不同域内容
+				// 为不同域建立索引
 				Document doc = new Document();
 				doc.add(new Field(FIELD_URL, fileUrl, TextField.TYPE_STORED));
 				doc.add(new Field(FIELD_CONTENT, content, TextField.TYPE_STORED));
